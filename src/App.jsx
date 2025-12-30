@@ -1,6 +1,11 @@
 import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { supabase } from './supabaseClient'
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = 'https://vvdzbnxhqdojeyrvhtvf.supabase.co'
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2ZHpibnhocWRvamV5cnZodHZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY5OTUzOTAsImV4cCI6MjA4MjU3MTM5MH0.W7TF-LpCUSEmruhtGDlK9jOXermYTAJeFIVcwpWp3s8'
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // Signature Console Log
 console.log("%c ECHO %c Created by Jeeval Jolly J", "color: white; background: #000; padding: 5px; font-weight: bold;", "color: grey;");
