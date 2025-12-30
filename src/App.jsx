@@ -309,7 +309,7 @@ function App() {
             className="fixed inset-0 z-[100] bg-black flex items-center justify-center p-8"
           >
             <div className="max-w-xl w-full text-center">
-              <textarea autoFocus value={text} onChange={(e) => setText(e.target.value)} placeholder="Whisper into the void..." className="w-full bg-transparent border-none text-4xl text-center outline-none italic font-light min-h-[300px] text-white px-4" maxLength={280} />
+              <textarea autoFocus value={text} onChange={(e) => setText(e.target.value)} placeholder="Whisper into the void..." className="w-full bg-transparent border-none text-4xl text-center outline-none italic font-light min-h-[300px] text-white px-4" maxLength={400} />
               <div className="flex justify-center gap-12 mt-12">
                 <button onClick={() => setIsPosting(false)} className="text-[10px] uppercase text-stone-700 tracking-[0.4em] hover:text-stone-400">Cancel</button>
                 <button onClick={handleRelease} className="px-14 py-4 rounded-full border border-stone-800 text-[10px] uppercase tracking-[0.6em] hover:bg-white hover:text-black transition-all shadow-xl">Release</button>
