@@ -136,7 +136,6 @@ function App() {
         </button>
       </header>
 
-      {/* --- GRID FEED (Break-All Implemented) --- */}
       <main className="h-full w-full overflow-y-auto pt-48 px-8 pb-40 no-scrollbar">
         {echoes.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
@@ -146,9 +145,9 @@ function App() {
                 onClick={() => setSelectedEcho(echo)}
                 className="group relative bg-stone-900/10 border border-stone-800/40 p-8 rounded-[2.5rem] cursor-pointer hover:bg-stone-900/30 transition-all flex flex-col justify-between h-64 overflow-hidden"
               >
-                {/* break-all ensures long single strings don't leak out of tile */}
-                <p className="text-lg italic font-light text-stone-300 leading-relaxed line-clamp-4 whitespace-pre-wrap break-all">
-                  "{echo.content}"
+                {/* Fixed: Used break-words instead of break-all */}
+                <p className="text-lg italic font-light text-stone-300 leading-relaxed line-clamp-4 whitespace-pre-wrap break-words overflow-wrap-anywhere">
+                  {echo.content}
                 </p>
                 <div className="mt-6 flex justify-between items-center opacity-40 group-hover:opacity-100">
                    <GridTimer createdAt={echo.created_at} />
@@ -160,7 +159,7 @@ function App() {
         ) : (
           <div className="h-[50vh] flex flex-col items-center justify-center text-center opacity-30 px-6">
             <h2 className="text-xl md:text-2xl uppercase tracking-[1em] font-extralight mb-4">The void is silent</h2>
-            <p className="text-[10px] uppercase tracking-[0.8em] font-extralight text-stone-300">Be the first to whisper into the dark</p>
+            <p className="text-[10px] uppercase tracking-[0.6em] font-light text-stone-400">Be the first to whisper into the dark</p>
           </div>
         )}
       </main>
@@ -179,7 +178,6 @@ function App() {
         </motion.button>
       </div>
 
-      {/* --- POPUP VIEW (Layout Fixes) --- */}
       <AnimatePresence>
         {selectedEcho && (
           <motion.div 
@@ -191,10 +189,10 @@ function App() {
               initial={{ scale: 0.98, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} 
               className="relative w-full max-w-6xl bg-[#0a0a0a] border border-stone-800/60 rounded-[2rem] shadow-2xl overflow-hidden flex flex-col md:flex-row h-full max-h-[90vh]"
             >
-              {/* LEFT SIDE: Original Post (Centered & Unbreakable) */}
+              {/* Left Side: Original Content (Fixed: break-words and no auto-quotes) */}
               <div className="flex-[1.4] overflow-y-auto no-scrollbar flex flex-col justify-center items-center p-10 border-b md:border-b-0 md:border-r border-stone-800/30 bg-black/20 relative">
-                <p className="text-2xl md:text-3xl lg:text-4xl leading-relaxed font-light italic text-white text-center whitespace-pre-wrap break-all w-full max-w-xl">
-                  "{selectedEcho.content}"
+                <p className="text-2xl md:text-3xl lg:text-4xl leading-relaxed font-light italic text-white text-center whitespace-pre-wrap break-words overflow-wrap-anywhere w-full max-w-xl py-10">
+                  {selectedEcho.content}
                 </p>
                 <div className="mt-12 flex items-center gap-3 opacity-40">
                   <div className="h-[1px] w-8 bg-stone-500"></div>
@@ -205,8 +203,8 @@ function App() {
                 </div>
               </div>
 
-              {/* RIGHT SIDE: Chat-style Cards (Unbreakable) */}
-              <div className="flex-1 flex flex-col h-full bg-[#080808] min-w-0"> {/* min-w-0 helps flex containers with long text */}
+              {/* Right Side: Chat Sidebar */}
+              <div className="flex-1 flex flex-col h-full bg-[#080808] min-w-0">
                 <div className="p-6 border-b border-stone-800/30 flex justify-between items-center bg-[#0a0a0a]">
                   <span className="text-[10px] uppercase tracking-[0.4em] text-stone-500 font-sans font-bold">Resonances</span>
                   <button onClick={() => setSelectedEcho(null)} className="text-stone-600 hover:text-white transition-colors">
@@ -217,7 +215,7 @@ function App() {
                   {selectedEcho.replies && selectedEcho.replies.length > 0 ? (
                     selectedEcho.replies.map((r, i) => (
                       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }} key={r.id} className="bg-stone-900/20 border border-stone-800/40 p-5 rounded-2xl backdrop-blur-md shadow-sm">
-                        <p className="text-stone-300 text-sm italic font-extralight leading-relaxed break-all whitespace-pre-wrap">{r.content}</p>
+                        <p className="text-stone-300 text-sm italic font-extralight leading-relaxed break-words overflow-wrap-anywhere whitespace-pre-wrap">{r.content}</p>
                         <div className="text-[8px] uppercase tracking-tighter text-stone-700 mt-3 font-sans border-t border-stone-800/30 pt-2">Resonance #{i + 1}</div>
                       </motion.div>
                     ))
@@ -234,7 +232,7 @@ function App() {
                       value={replyText} 
                       onChange={(e) => setReplyText(e.target.value)} 
                       placeholder="Whisper back..." 
-                      className="flex-1 bg-transparent border-none outline-none italic text-sm text-stone-200 py-1 resize-none h-8 no-scrollbar break-all"
+                      className="flex-1 bg-transparent border-none outline-none italic text-sm text-stone-200 py-1 resize-none h-8 no-scrollbar break-words"
                       maxLength={1000}
                     />
                     <button onClick={handleSendReply} className="text-stone-500 hover:text-white transition-all transform hover:scale-110 active:scale-95">
@@ -253,7 +251,7 @@ function App() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[300] bg-[#050505] flex flex-col items-center justify-center p-8">
             <h1 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl md:text-9xl tracking-[0.8em] font-extralight text-white opacity-5 select-none pointer-events-none uppercase z-0 text-center w-full"> &nbsp;ECHO</h1>
             <div className="max-w-xl w-full text-center relative z-10">
-              <textarea autoFocus value={text} onChange={(e) => setText(e.target.value)} placeholder="Whisper into the void..." className="w-full bg-transparent border-none text-3xl md:text-4xl text-center outline-none italic font-light min-h-[300px] text-white whitespace-pre-wrap no-scrollbar break-all" maxLength={800} />
+              <textarea autoFocus value={text} onChange={(e) => setText(e.target.value)} placeholder="Whisper into the void..." className="w-full bg-transparent border-none text-3xl md:text-4xl text-center outline-none italic font-light min-h-[300px] text-white whitespace-pre-wrap no-scrollbar break-words" maxLength={800} />
               <div className="flex justify-center gap-12 mt-12">
                 <button onClick={() => setIsPosting(false)} className="text-[10px] uppercase text-stone-700 tracking-[0.4em] hover:text-stone-400 transition-colors font-sans">Cancel</button>
                 <button onClick={handleRelease} className="px-14 py-4 rounded-full border border-stone-800 text-[10px] uppercase tracking-[0.6em] hover:bg-white hover:text-black transition-all shadow-xl font-sans">Release</button>
@@ -263,7 +261,6 @@ function App() {
         )}
       </AnimatePresence>
 
-      {/* --- NOTIFICATION SIDEBAR (Break-All Fixed) --- */}
       <AnimatePresence>
         {isNotifOpen && (
           <>
@@ -276,9 +273,9 @@ function App() {
                <div className="space-y-8 overflow-y-auto h-[80vh] no-scrollbar text-left">
                   {notifications.length > 0 ? (
                     notifications.map(n => (
-                      <div key={n.id} className="border-b border-stone-900 pb-6">
-                        <p className="text-[9px] text-stone-600 mb-2 uppercase tracking-widest italic truncate break-all">Echo: "{n.echoes?.content}"</p>
-                        <p className="text-stone-200 text-sm italic font-light leading-relaxed whitespace-pre-wrap break-all">"{n.content}"</p>
+                      <div key={n.id} className="border-b border-stone-900 pb-6 break-words">
+                        <p className="text-[9px] text-stone-600 mb-2 uppercase tracking-widest italic truncate break-words">Echo: {n.echoes?.content}</p>
+                        <p className="text-stone-200 text-sm italic font-light leading-relaxed whitespace-pre-wrap break-words">{n.content}</p>
                       </div>
                     ))
                   ) : (
@@ -295,11 +292,11 @@ function App() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/98 backdrop-blur-3xl flex flex-col items-center justify-center p-12 text-center" onClick={() => setIsAboutOpen(false)}>
             <div className="max-w-xl flex flex-col items-center">
               <h2 className="text-4xl md:text-5xl tracking-[0.6em] font-extralight text-stone-100 mb-10 uppercase">ECHO</h2>
-              <p className="text-2xl italic font-extralight text-stone-300 leading-relaxed mb-10">"A fleeting space for the things we carry. No accounts, no history, no judgment. Every thought fades after 48 hours."</p>
-              <p className="text-[10px] uppercase tracking-[0.8em] text-stone-600 font-sans mb-20">48H Lifecycle • No Identity • Pure Echo</p>
+              <p className="text-2xl italic font-extralight text-stone-300 leading-relaxed mb-10 text-center">"A fleeting space for the things we carry. No accounts, no history, no judgment. Every thought fades after 48 hours."</p>
+              <p className="text-[10px] uppercase tracking-[0.8em] text-stone-600 font-sans mb-20 text-center">48H Lifecycle • No Identity • Pure Echo</p>
               <div className="pt-12 border-t border-stone-900 w-full" onClick={(e) => e.stopPropagation()}>
                 <p className="text-[10px] uppercase tracking-[0.4em] text-stone-700 mb-6 font-sans">Architect of ECHO</p>
-                <h3 className="text-xl font-light tracking-widest text-stone-200 mb-4 font-sans">J•J•J</h3>
+                <h3 className="text-xl font-light tracking-widest text-stone-200 mb-4 font-sans text-center">J•J•J</h3>
                 <div className="flex gap-8 justify-center items-center">
                   <a href="https://github.com/j-j-j-github" target="_blank" rel="noreferrer" className="text-stone-600 hover:text-white transition-all text-[10px] uppercase tracking-widest border-b border-transparent hover:border-white pb-1 font-sans">GitHub</a>
                   <a href="https://j-j-j-github.github.io/MY-PORTFOLIO/" target="_blank" rel="noreferrer" className="text-stone-600 hover:text-white transition-all text-[10px] uppercase tracking-widest border-b border-transparent hover:border-white pb-1 font-sans">Portfolio</a>
