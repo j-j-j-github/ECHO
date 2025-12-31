@@ -297,11 +297,24 @@ function App() {
               <div className="pt-12 border-t border-stone-900 w-full" onClick={(e) => e.stopPropagation()}>
                 <p className="text-[10px] uppercase tracking-[0.4em] text-stone-700 mb-6 font-sans">Architect of ECHO</p>
                 <h3 className="text-xl font-light tracking-widest text-stone-200 mb-4 font-sans text-center">J•J•J</h3>
-                <div className="flex gap-8 justify-center items-center">
-                  <a href="https://github.com/j-j-j-github" target="_blank" rel="noreferrer" className="text-stone-600 hover:text-white transition-all text-[10px] uppercase tracking-widest border-b border-transparent hover:border-white pb-1 font-sans">GitHub</a>
-                  <a href="https://j-j-j-github.github.io/MY-PORTFOLIO/" target="_blank" rel="noreferrer" className="text-stone-600 hover:text-white transition-all text-[10px] uppercase tracking-widest border-b border-transparent hover:border-white pb-1 font-sans">Portfolio</a>
-                  <a href="https://www.linkedin.com/in/jeeval-jolly-jacob-5a28b4329/" target="_blank" rel="noreferrer" className="text-stone-600 hover:text-white transition-all text-[10px] uppercase tracking-widest border-b border-transparent hover:border-white pb-1 font-sans">LinkedIn</a>
-                </div>
+                <div className="flex flex-col items-center gap-10">
+  {/* Social Links Row */}
+  <div className="flex gap-8 justify-center items-center">
+    <a href="https://github.com/j-j-j-github" target="_blank" rel="noreferrer" className="text-stone-600 hover:text-white transition-all text-[10px] uppercase tracking-widest border-b border-transparent hover:border-white pb-1 font-sans">GitHub</a>
+    <a href="https://j-j-j-github.github.io/MY-PORTFOLIO/" target="_blank" rel="noreferrer" className="text-stone-600 hover:text-white transition-all text-[10px] uppercase tracking-widest border-b border-transparent hover:border-white pb-1 font-sans">Portfolio</a>
+    <a href="https://www.linkedin.com/in/jeeval-jolly-jacob-5a28b4329/" target="_blank" rel="noreferrer" className="text-stone-600 hover:text-white transition-all text-[10px] uppercase tracking-widest border-b border-transparent hover:border-white pb-1 font-sans">LinkedIn</a>
+  </div>
+
+  {/* Buy Me A Coffee Button (Forced to next line via Column Layout) */}
+  <a 
+    href="https://buymeacoffee.com/jeevaljollyjacob" 
+    target="_blank" 
+    rel="noreferrer" 
+    className="px-10 py-3 rounded-full border border-stone-800 text-stone-500 hover:text-white hover:bg-stone-900/50 hover:border-stone-600 transition-all text-[10px] uppercase tracking-[0.3em] font-sans"
+  >
+    Support the Silence
+  </a>
+</div>
               </div>
             </div>
           </motion.div>
